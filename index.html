@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress-bar</title>
+    <style>
+      .progress-bar {
+        margin-left: 10px;
+      }
+      .progress-bar__input {
+        width: 300px;
+        height: 30px;
+        border-radius: 5px;
+        border: 2px solid black;
+      }
+      .progress-bar__button {
+        height: 36px;
+        width: 60px;
+        color: rgb(255, 255, 255);
+        border-radius: 5px;
+        background: #201e1e;
+        color: #55f823;
+        border: none;
+        cursor: pointer;
+        transition: all 2ms ease;
+      }
+
+      .progress {
+        margin-top: 20px;
+        position: relative;
+        width: 500px;
+        height: 30px;
+        background: #a4afa4;
+        border-radius: 5px;
+      }
+
+      .progress__fill {
+        width: 0%;
+        height: 100%;
+        background: #55f823;
+        border-radius: 5px;
+      }
+      .progress__text {
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        color: rgb(255, 255, 255);
+      }
+
+      .progress-bar__button:hover {
+        background: #000000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress-bar">
+      <h1 class="progress-bar__title">Progress Bar</h1>
+      <p class="progress-bar__input-title">Set delays list:</p>
+      <input id="input" type="text" class="progress-bar__input" />
+      <button onclick="{progressBar()}" class="progress-bar__button">Start</button>
+      <div class="progress">
+        <div class="progress__fill"></div>
+        <span class="progress__text">0%</span>
+      </div>
+    </div>
+
+    <script>
+      function progressBar() {
+        const values = document.getElementById('input').value;
+        const array = values.split(',');
+        let arr = [...new Set(array)];
+        const counter = arr.length;
+        const interest = 100 / counter;
+        const progress = document.querySelector('.progress__fill');
+        const progressText = document.querySelector('.progress__text');
+        let x = 0;
+        let delay;
+        function start() {
+          let time = arr[x] * 1000;
+          delay = setTimeout(function () {
+            progress.style.width = `${interest * (x + 1)}%`;
+            progressText.textContent = `${interest * (x + 1)}%`;
+            x += 1;
+            if (x < arr.length) {
+              start();
+            } else {
+              clearTimeout(delay);
+            }
+          }, time);
+        }
+        start();
+      }
+    </script>
+  </body>
+</html>
